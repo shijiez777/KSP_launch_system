@@ -75,7 +75,7 @@ if __name__ == "__main__":
     time.sleep(3)
     print("pointing to retrograde")
 
-    while vessel.altitude() > 10000:
+    while vessel.surface_altitude() > vessel.DEACCELERATE_SEQ_HEIGHT:
         pass
 
     print("Starting deaccelerate burn")
@@ -84,7 +84,7 @@ if __name__ == "__main__":
     ## landing
     while vessel.above_deaccelerate_burn_height():
         pass
-
+    print("Deaccelerate height reached, ", vessel.mean_altitude())
     vessel.control.throttle = 1
 
     # while surface_altitude() > 3:

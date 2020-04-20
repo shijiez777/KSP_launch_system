@@ -14,7 +14,7 @@ if __name__ == "__main__":
     vessel_add_methods_and_attributes(vessel, conn)
     
     vessel.control.sas = True
-    vessel.TARGET_ALTITUDE = 100 + vessel.altitude()
+    vessel.TARGET_ALTITUDE = 100 + vessel.surface_altitude()
 
     # lift to height
     vessel.control.throttle = 1
