@@ -11,15 +11,18 @@ def minimum_thrust(self):
     """
     # g_force includes all forces including thrust and gravitational force
     # mg = vessel.mass * vessel.flight().g_force * 9.8
-    mg = self.mass * 9.8
-    equilibrium_thrust = mg / self.available_thrust
+    surface_gravity = self.orbit.body.surface_gravity
+    mg = self.mass * surface_gravity
+    equilibrium_thrust = mg / self.available_thrust_stream()
     return equilibrium_thrust
 
 def available_acceleration(self):
     # thrust(F) - mg = ma
     # return a
-    mg = self.mass * 9.8
-    a = (self.available_thrust - mg)/self.mass
+    surface_gravity = self.orbit.body.surface_gravity
+
+    mg = self.mass * surface_gravity
+    a = (self.available_thrust_stream() - mg)/self.mass
     # print(a)
     return a
 
@@ -44,6 +47,22 @@ def vessel_add_methods_and_attributes(vessel, conn):
     vessel.mean_altitude = conn.add_stream(getattr, vessel.flight(), 'mean_altitude')
     vessel.surface_altitude = conn.add_stream(getattr, vessel.flight(), 'surface_altitude')
     vessel.vertical_velocity = conn.add_stream(getattr, vessel.flight(vessel.orbit.body.reference_frame), "vertical_speed")        
+
+    # vessel.available_thrust = conn.add_stream(getattr, vessel.available_thrust())
+    vessel.available_thrust_stream = conn.add_stream(getattr, vessel, "available_thrust")
+
+
+# vessel = conn.space_center.active_vessel
+# refframe = vessel.orbit.body.reference_frame
+# with conn.stream(vessel.position, refframe) as position:
+#     while True:
+#         print(position())
+
+
+    vessel.terminal_velocity = conn.add_stream(getattr, vessel.flight(), 'terminal_velocity')
+    vessel.reynolds_number = conn.add_stream(getattr, vessel.flight(), 'reynolds_number')
+
+
     # distance to hard surface
     vessel.bedrock_altitude = conn.add_stream(getattr, vessel.flight(), 'bedrock_altitude')
     # vessel.elevation = conn.add_stream(getattr, vessel.flight(), 'elevation')

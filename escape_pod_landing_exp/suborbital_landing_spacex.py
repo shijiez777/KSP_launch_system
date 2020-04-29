@@ -21,6 +21,9 @@ if __name__ == "__main__":
 
     # lift off
     print('Launch!')
+
+    print(vessel.terminal_velocity())
+
     vessel.control.activate_next_stage()
 
     # Booster
@@ -45,6 +48,11 @@ if __name__ == "__main__":
 
     # change heading, pitch 60, heading 90(west).
     print('Gravity turn')
+
+
+    print(vessel.terminal_velocity())
+
+
     vessel.auto_pilot.target_pitch_and_heading(60, 90)
 
     # wait till reaching 100km apoapsis and stop throttle. Jettison the launch stage and turn of autopilot
@@ -57,6 +65,9 @@ if __name__ == "__main__":
         event.wait()
 
     print('Launch stage separation')
+
+    print(vessel.terminal_velocity())
+
     vessel.control.throttle = 0
     time.sleep(1)
     vessel.control.activate_next_stage()
@@ -67,6 +78,9 @@ if __name__ == "__main__":
         pass
     print("apoapsis reached")
 
+    print(vessel.terminal_velocity())
+
+
     vessel.control.sas = True
     vessel.control.rcs = True
     time.sleep(0.1)
@@ -74,18 +88,21 @@ if __name__ == "__main__":
 
     time.sleep(3)
     print("pointing to retrograde")
+    print(vessel.terminal_velocity())
+
 
     while vessel.surface_altitude() > vessel.DEACCELERATE_SEQ_HEIGHT:
         pass
 
     print("Starting deaccelerate burn")
-
+    print(vessel.terminal_velocity())
 
     ## landing
     while vessel.above_deaccelerate_burn_height():
         pass
     print("Deaccelerate height reached, ", vessel.mean_altitude())
     vessel.control.throttle = 1
+    print(vessel.terminal_velocity())
 
     # while surface_altitude() > 3:
     #     print(surface_altitude())
@@ -100,7 +117,7 @@ if __name__ == "__main__":
     
     vessel.control.sas = False
     print('Landed!')
-
+    print(vessel.terminal_velocity())
 
 
     # srf_altitude = conn.get_call(getattr, vessel.flight(), 'surface_altitude')
