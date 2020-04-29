@@ -46,6 +46,12 @@ if __name__ == "__main__":
 
     print(vessel.orbit.body.surface_gravity)
 
+    """
+    TODO:
+    1. Fine tune thrust, so that when apoapsis reached, gradually add thrust to achieve velocity 0.
+    2. maintain altitude by constantly updating thrust to mitigate the fact that the vessel is getting lighter and require less thrust.
+    """
+
 
     vessel.control.throttle = vessel.minimum_thrust()
     print("Maintaining altitude")
